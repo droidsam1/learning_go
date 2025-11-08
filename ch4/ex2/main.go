@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
 func main() {
 
@@ -14,7 +17,6 @@ func main() {
 			fmt.Println("Six")
 		case i%2 == 0:
 			fmt.Println("Two")
-
 		case i%3 == 0:
 			fmt.Println("Three")
 		default:
@@ -28,8 +30,8 @@ func create() []int {
 
 	oneHundredNumbers := []int{}
 
-	for i := range 100 {
-		oneHundredNumbers = append(oneHundredNumbers, i)
+	for i := 0; i < 100; i++ {
+		oneHundredNumbers = append(oneHundredNumbers, rand.Intn(100))
 	}
 
 	return oneHundredNumbers
