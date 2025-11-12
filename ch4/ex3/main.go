@@ -9,5 +9,5 @@ func main() {
 		total := total + i
 		fmt.Println(total)
 	}
-
+	// the problem is that total is being redeclared in the for loop block shadowing the variable from the outer block
 }
