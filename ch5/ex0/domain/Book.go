@@ -1,4 +1,4 @@
-package main
+package book
 
 import "encoding/json"
 
@@ -8,7 +8,10 @@ type Book struct {
 	Pages  int    `json:"pages"`
 }
 
-func (b Book) ToJson() string {
-	data, _ := json.Marshal(b)
-	return string(data)
+func (b Book) toJSON() (string, error) {
+	data, error := json.Marshal(b)
+	if error != nil {
+		return "", error
+	}
+	return string(data), nil
 }

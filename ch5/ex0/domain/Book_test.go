@@ -1,9 +1,10 @@
-package main
+package book
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestJson(t *testing.T) {
@@ -17,7 +18,9 @@ func TestJson(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.testName, func(t *testing.T) {
-			assert.Equal(t, tt.expected, tt.input.ToJson())
+			result, error := tt.input.toJSON()
+			require.NoError(t, error)
+			assert.Equal(t, tt.expected, result)
 		})
 	}
 
