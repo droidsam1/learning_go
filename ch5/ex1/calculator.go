@@ -1,6 +1,9 @@
 package calculator
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 var (
 	ErrDivisionByZero      = errors.New("division by zero")
@@ -42,10 +45,10 @@ func Perform(exp string) (int, error) {
 		return 0, err
 	}
 
-	fn, ok := operations[string(op)]
+	fn, ok := operations[op]
 
 	if !ok {
-		return 0, ErrUnsupportedOperator
+		return 0, fmt.Errorf("%w: %q", ErrUnsupportedOperator, op)
 	}
 
 	return fn(left, right)

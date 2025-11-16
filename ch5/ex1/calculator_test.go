@@ -16,6 +16,7 @@ func TestCalculator(t *testing.T) {
 	}{
 		{"sum two numbers", "1+1", 2, nil},
 		{"sum two numbers with spaces", " 1 + 1 ", 2, nil},
+		{"sum two numbers with spaces", "           1     +1 ", 2, nil},
 		{"sum a negative number", "-1+1", 0, nil},
 		{"substract two numbers", "2-1", 1, nil},
 		{"substract a negative number", "-1-1", -2, nil},
@@ -41,7 +42,8 @@ func TestCalculatorInvalidInputs(t *testing.T) {
 	}{
 		{"throw error when invalid input", "abc+1", errors.New("invalid left operand in \"abc+1\": strconv.Atoi: parsing \"abc\": invalid syntax")},
 		{"throw error when invalid operand", "1/", errors.New("invalid right operand in \"1/\": strconv.Atoi: parsing \"\": invalid syntax")},
-		{"throw error when no operator found", "", errors.New("no operator found in \"\"")},
+		{"throw error when no operator found", "", ErrUnsupportedOperator},
+		{"throw error when operator only", "+", errors.New("invalid left operand in \"+\": strconv.Atoi: parsing \"\": invalid syntax")},
 	}
 
 	for _, tt := range tests {

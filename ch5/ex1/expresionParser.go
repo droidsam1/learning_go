@@ -7,9 +7,10 @@ import (
 )
 
 func parse(expr string) (int, string, int, error) {
+	expr = strings.TrimSpace(expr)
 	i, op := findOperator(expr)
 	if i == -1 {
-		return 0, "", 0, fmt.Errorf("no operator found in %q", expr)
+		return 0, "", 0, ErrUnsupportedOperator
 	}
 
 	left, err1 := strconv.Atoi(strings.TrimSpace(expr[:i]))
@@ -26,9 +27,10 @@ func parse(expr string) (int, string, int, error) {
 }
 
 func findOperator(expr string) (int, string) {
+	size := len(expr)
 	for i, r := range expr {
 		// Leading + or - belongs to the first number
-		if i == 0 && (r == '+' || r == '-') {
+		if i == 0 && (r == '+' || r == '-') && size > 1 {
 			continue
 		}
 
