@@ -3,6 +3,7 @@ package calculator
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 func parse(expr string) (int, string, int, error) {
@@ -11,11 +12,14 @@ func parse(expr string) (int, string, int, error) {
 		return 0, "", 0, fmt.Errorf("no operator found in %q", expr)
 	}
 
-	left, err1 := strconv.Atoi(expr[:i])
-	right, err2 := strconv.Atoi(expr[i+1:])
+	left, err1 := strconv.Atoi(strings.TrimSpace(expr[:i]))
+	right, err2 := strconv.Atoi(strings.TrimSpace(expr[i+1:]))
 
-	if err1 != nil || err2 != nil {
-		return 0, "", 0, fmt.Errorf("invalid number in %q", expr)
+	if err1 != nil {
+		return 0, "", 0, fmt.Errorf("invalid left operand in %q: %w", expr, err1)
+	}
+	if err2 != nil {
+		return 0, "", 0, fmt.Errorf("invalid right operand in %q: %w", expr, err2)
 	}
 
 	return left, op, right, nil

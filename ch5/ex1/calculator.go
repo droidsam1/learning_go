@@ -4,7 +4,7 @@ import "errors"
 
 var (
 	ErrDivisionByZero      = errors.New("division by zero")
-	ErrUnsupportedOperator = errors.New("Not valid operator")
+	ErrUnsupportedOperator = errors.New("not valid operator")
 )
 
 type operation func(int, int) (int, error)
