@@ -3,8 +3,11 @@ package calculator
 import "errors"
 
 var (
-	ErrDivisionByZero = errors.New("division by zero")
+	ErrDivisionByZero      = errors.New("division by zero")
+	ErrUnsupportedOperator = errors.New("Not valid operator")
 )
+
+type operation func(int, int) (int, error)
 
 func add(a, b int) (int, error) {
 	return a + b, nil
@@ -14,7 +17,7 @@ func multiply(a, b int) (int, error) {
 	return a * b, nil
 }
 
-func substraction(a, b int) (int, error) {
+func subtraction(a, b int) (int, error) {
 	return a - b, nil
 }
 
@@ -25,10 +28,10 @@ func division(dividend, divisor int) (int, error) {
 	return dividend / divisor, nil
 }
 
-func perform(exp string) (int, error) {
+func Perform(exp string) (int, error) {
 
-	operations := map[string]func(int, int) (int, error){
-		"-": substraction,
+	operations := map[string]operation{
+		"-": subtraction,
 		"+": add,
 		"*": multiply,
 		"/": division,
@@ -39,5 +42,11 @@ func perform(exp string) (int, error) {
 		return 0, err
 	}
 
-	return operations[string(op)](left, right)
+	fn, ok := operations[string(op)]
+
+	if !ok {
+		return 0, ErrUnsupportedOperator
+	}
+
+	return fn(left, right)
 }
